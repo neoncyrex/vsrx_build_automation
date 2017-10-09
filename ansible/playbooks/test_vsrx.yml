@@ -1,0 +1,28 @@
+---
+   - name: get info about the networks
+     os_networks_facts:
+       filters:
+         name: "{{mgmnt_network}}"
+     environment:
+        OS_USERNAME: "{{OSUSERNAME}}"
+        OS_PASSWORD: "{{OSPASSWORD}}"
+        OS_AUTH_URL: "{{OSAUTHURL}}"
+        OS_PROJECT_NAME: "{{OSPROJECTNAME}}"
+
+   - name: get port facts
+     os_port_facts:
+       filters:
+         device_id: "{{vm.openstack.id}}"
+         network_id: "{{openstack_networks[0].id}}"
+     environment:
+        OS_USERNAME: "{{OSUSERNAME}}"
+        OS_PASSWORD: "{{OSPASSWORD}}"
+        OS_AUTH_URL: "{{OSAUTHURL}}"
+        OS_PROJECT_NAME: "{{OSPROJECTNAME}}"
+
+   - name: wait until srx boots
+     wait_for:
+       port: 22
+       host: "{{openstack_ports[0].fixed_ips[0].ip_address}}"
+       delay: 60
+       timeout: 480
