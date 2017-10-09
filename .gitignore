@@ -1,0 +1,6 @@
+*.retry
+scratchpad
+playbooks/vagrant/
+.vscode/
+ansible/hub_login.yml
+*.pyc
