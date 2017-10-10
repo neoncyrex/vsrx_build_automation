@@ -2,7 +2,7 @@
 OSUSERNAME: admin
 OSPASSWORD: contrail123
 OSAUTHURL: http://127.0.0.1:5000/v2.0/
-OSPROJECTNAME: MNS-25180-L-06Shared 
+OSPROJECTNAME: jedi-space 
 srx_hostname: vSRX_build
 srx_hostname_deploy: vSRX_deploy
 image_name: vSRX-151X49-D100.6
@@ -12,3 +12,4 @@ left_network: Left
 right_network: Right
 srx_user: root
 srx_pass: juniper123
+mechid: adminjuniper

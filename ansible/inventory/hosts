@@ -43,3 +43,6 @@
 ## db-[99:101]-node.example.com
 [openstack]
 10.13.82.57 ansible_user=root ansible_ssh_pass=Juniper123
+
+[jenkins]
+localhost ansible_user=ubuntu ansible_ssh_pass=Juniper123

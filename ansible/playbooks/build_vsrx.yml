@@ -57,17 +57,32 @@
        name: "{{openstack_ports[0].fixed_ips[0].ip_address}}"
        groups: srx_vm
 
+
+ - name: create user and ssh key for srx access
+   hosts: jenkins
+   gather_facts: no
+   tasks:
+   - name: create vsrx user and ssh key
+     user:
+       name: "{{mechid}}"
+       state: present
+       generate_ssh_key: yes
+       ssh_key_bits: 2048
+       ssh_key_file: .ssh/id_rsa
+     
+
  - name: configuration of new user admin on the srx
    hosts: srx_vm
    connection: local
    gather_facts: no
    tasks:
 
-   - name: load configure lines into device
-     junos_config:
-       lines:
-         - "set system host-name VSRX1"
-         - "set system login user remote class super-user"
+   - name: create admin user with ssh key
+     junos_user:
+       name: "{{mechid}}"
+       role: super-user
+       sshkey: "{{ lookup('file', '/home/'+"{{mechid}}"+'/.ssh/id_rsa.pub') }}"
+       state: present
        provider:
          host: "{{ groups['srx_vm'] |to_json | regex_search ('\\d[0-9]*.\\d[0-9]*.\\d[0-9]*.\\d[0-9]*')}}"
          username: "{{srx_user}}"
