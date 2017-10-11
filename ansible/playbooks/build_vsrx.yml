@@ -72,7 +72,7 @@
        generate_ssh_key: yes
        ssh_key_bits: 2048
        ssh_key_file: .ssh/id_rsa
-     
+
 
  - name: configuration of new user admin on the srx
    hosts: srx_vm
@@ -85,7 +85,7 @@
        name: "{{mechid}}"
        full_name: "Ansible and Automation MechID"
        role: super-user
-       sshkey: "{{ lookup('file', '/home/'+"{{mechid}}"+'/.ssh/id_rsa.pub') }}"
+       sshkey: "{{ lookup('file', '/home/'+mechid+'/.ssh/id_rsa.pub') }}"
        state: present
        provider:
          host: "{{ groups['srx_vm'] |to_json | regex_search ('\\d[0-9]*.\\d[0-9]*.\\d[0-9]*.\\d[0-9]*')}}"
