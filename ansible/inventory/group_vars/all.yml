@@ -7,7 +7,7 @@ srx_hostname: vSRX_build
 srx_hostname_deploy: vSRX_deploy
 image_name: vSRX-151X49-D110
 flavor_name: vSRX-D100-2CPU
-mgmnt_network: Management
+mgmnt_network: MGT
 left_network: Left-VN1
 right_network: Right-VN1
 srx_user: root
