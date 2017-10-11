@@ -8,8 +8,25 @@ srx_hostname_deploy: vSRX_deploy
 image_name: vSRX-151X49-D100.6
 flavor_name: vSRX-D100-2CPU
 mgmnt_network: Management
-left_network: Left
-right_network: Right
+left_network: Left-VN1
+right_network: Right-VN1
 srx_user: root
 srx_pass: juniper123
 mechid: adminjuniper
+
+# template vars
+globaladdress:
+  - {hostname: "google-dns", ipaddr: "8.8.8.8/32"}
+  - {hostname: "google-dns2", ipaddr: "8.8.4.4/32"}
+addressset:
+  - name: DNS
+    addr:
+      - google-dns
+      - google-dns2
+  
+policies:
+  - name: ALLOW_DNS
+    matchsourceaddress: any
+    matchdestinationaddress: DNS
+    matchapplication: dns
+    action: permit

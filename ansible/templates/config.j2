@@ -39,7 +39,21 @@ security {
     log {
         mode stream;
         report;
-    }                                   
+    }   
+     address-book {
+        global {
+        {% for host in globaladdress %}
+        address {{host.hostname}} {{host.ipaddr}};
+        {% endfor %}
+        {% for addr in addressset recursive %}             
+        address-set {{addr.name}} {
+        {% for addr1 in addr.addr %}
+        address {{addr1}};
+        {% endfor %}
+            }
+        {% endfor %}
+        }
+    }                                
     screen {
         ids-option untrust-screen {
             icmp {
@@ -86,7 +100,20 @@ security {
                     permit;
                 }
             }
+        {% for pol in policies %}
+   policy {{pol.name}} {
+                match {
+                    source-address {{pol.matchsourceaddress}};
+                    destination-address {{pol.matchdestinationaddress}};
+                    application {{pol.matchapplication}};
+                }
+                then {
+                    {{pol.action}};
+                }
+            }
+   {% endfor %}
         }
+        
     }
     zones {
         security-zone trust {

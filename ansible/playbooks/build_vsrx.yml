@@ -3,6 +3,9 @@
    hosts: openstack
    gather_facts: no
    tasks:
+   - name: create vsrx config
+     template: src=../templates/config.j2 dest=../templates/base_config.j2
+
    - name: deploy vsrx instance
      os_server:
        state: present
@@ -80,6 +83,7 @@
    - name: create admin user with ssh key
      junos_user:
        name: "{{mechid}}"
+       full_name: "Ansible and Automation MechID"
        role: super-user
        sshkey: "{{ lookup('file', '/home/'+"{{mechid}}"+'/.ssh/id_rsa.pub') }}"
        state: present
