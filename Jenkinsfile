@@ -3,7 +3,6 @@ def rev
 node('jenkins') {
   stage('Checkout') {
     checkout scm
-    echo "$BUILD_NUMBER"
     rev  = "$BUILD_NUMBER"
   }
 
