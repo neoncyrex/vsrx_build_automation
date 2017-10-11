@@ -8,8 +8,8 @@ srx_hostname_deploy: vSRX_deploy
 image_name: vSRX-151X49-D110-NONAT-FW
 flavor_name: vSRX-D100-2CPU
 mgmnt_network: MGT
-left_network: Left-VN1
-right_network: Right-VN1
+left_network: Left
+right_network: Right
 srx_user: root
 srx_pass: juniper123
 mechid: adminjuniper
