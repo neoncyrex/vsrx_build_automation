@@ -5,7 +5,7 @@ OSAUTHURL: http://10.13.82.57:5000/v2.0/
 OSPROJECTNAME: jedi-space 
 srx_hostname: vSRX_build
 srx_hostname_deploy: vSRX_deploy
-image_name: vSRX-151X49-D110
+image_name: vSRX-151X49-D110-NONAT-FW
 flavor_name: vSRX-D100-2CPU
 mgmnt_network: MGT
 left_network: Left-VN1
