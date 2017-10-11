@@ -3,7 +3,7 @@ def rev
 node('jenkins') {
   stage('Checkout') {
     checkout scm
-    rev  = sh(script: 'git rev-parse HEAD', returnStdout: true)
+    rev  = ${env.BUILD_NUMBER}
   }
 
   stage('Syntax') {
