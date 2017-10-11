@@ -1,6 +1,6 @@
 ---
  - name: deploy openstack vsrx
-   hosts: openstack
+   hosts: localhost
    gather_facts: no
    tasks:
    - name: create vsrx config
