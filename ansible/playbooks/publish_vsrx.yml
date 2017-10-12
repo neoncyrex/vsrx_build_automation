@@ -1,0 +1,16 @@
+
+ - name: Download OpenStack vSRX image to httpd repository
+   hosts: localhost
+   connection: local
+   gather_facts: no
+   tasks:
+   - name: Download vSRX image
+     command:  openstack image save --file /data/{{srx_hostname}}{{rev}}-image.qcow2 {{srx_hostname}}{{rev}}-image
+     environment:
+        OS_USERNAME: "{{OSUSERNAME}}"
+        OS_PASSWORD: "{{OSPASSWORD}}"
+        OS_AUTH_URL: "{{OSAUTHURL}}"
+        OS_PROJECT_NAME: "{{OSPROJECTNAME}}"
+     tags:
+     - skip_ansible_lint
+

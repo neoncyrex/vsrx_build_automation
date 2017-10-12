@@ -38,7 +38,9 @@ node('jenkins') {
 
   stage('Publish') {
     echo "${rev}: Publishing image for community usage"
-    echo "Currently this stage is empty"
+    sh "cd ansible;  ansible-playbook playbooks/publish_vsrx.yml -e rev=${rev}"
+    echo "${rev}: Downloading image"
+    sh "sleep 60"
     sh "true"
   }
 }
