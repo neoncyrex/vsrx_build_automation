@@ -52,17 +52,19 @@
    - name: download MechID SSH public key
      get_url: dest=~/tmp/id_rsa.pub.{{rev}} url={{mechid_publickey_url}}
 
+   - name: add ip to inventory
+     add_host:
+       name: "{{openstack_ports[0].fixed_ips[0].ip_address}}"
+       groups: srx_vm
+
+   - debug: var=groups
+
    - name: wait unstill srx boots
      wait_for:
        port: 22
        host: "{{openstack_ports[0].fixed_ips[0].ip_address}}"
        delay: 60
        timeout: 480
-
-   - name: add ip to inventory
-     add_host:
-       name: "{{openstack_ports[0].fixed_ips[0].ip_address}}"
-       groups: srx_vm
 
 
 # - name: create user and ssh key for srx access
@@ -83,6 +85,8 @@
    connection: local
    gather_facts: no
    tasks:
+   - set_fact: mykey={{ lookup('file', '~/tmp/id_rsa.pub.' + rev) }}
+   - debug: var=mykey
 
    - name: create admin user with ssh key
      junos_user:
