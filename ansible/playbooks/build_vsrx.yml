@@ -49,6 +49,9 @@
         OS_AUTH_URL: "{{OSAUTHURL}}"
         OS_PROJECT_NAME: "{{OSPROJECTNAME}}"
 
+   - name: download MechID SSH public key
+     get_url: dest=~/tmp/id_rsa.pub.{{rev}} url={{mechid_publickey_url}}
+
    - name: wait unstill srx boots
      wait_for:
        port: 22
@@ -75,23 +78,22 @@
 #       ssh_key_file: .ssh/id_rsa
 
 
-# - name: configuration of new user admin on the srx
-#   hosts: srx_vm
-#   connection: local
-#   gather_facts: no
-#   tasks:
+ - name: configuration of new user admin on the srx
+   hosts: srx_vm
+   gather_facts: no
+   tasks:
 
-#   - name: create admin user with ssh key
-#     junos_user:
-#       name: "{{mechid}}"
-#       full_name: "Ansible and Automation MechID"
-#       role: super-user
-#       sshkey: "{{ lookup('file', '/home/'+mechid+'/.ssh/id_rsa.pub') }}"
-#       state: present
-#       provider:
-#         host: "{{ groups['srx_vm'] |to_json | regex_search ('\\d[0-9]*.\\d[0-9]*.\\d[0-9]*.\\d[0-9]*')}}"
-#         username: "{{srx_user}}"
-#         password: "{{srx_pass}}"
+   - name: create admin user with ssh key
+     junos_user:
+       name: "{{mechid}}"
+       full_name: "Ansible and Automation MechID"
+       role: super-user
+       sshkey: "{{ lookup('file', '~/tmp/id_rsa.pub.' + rev) }}"
+       state: present
+       provider:
+         host: "{{ groups['srx_vm'] |to_json | regex_search ('\\d[0-9]*.\\d[0-9]*.\\d[0-9]*.\\d[0-9]*')}}"
+         username: "{{srx_user}}"
+         password: "{{srx_pass}}"
 
  - name: stop VSRX compute instance
    hosts: localhost
