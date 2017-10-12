@@ -11,7 +11,7 @@ mgmnt_network: MGT
 left_network: Left
 right_network: Right
 srx_user: root
-srx_pass: juniper123
+srx_pass: Juniper123
 mechid: adminjuniper
 mechid_publickey_url: http://10.13.84.75/keys/ansible_id_rsa.pub
 
