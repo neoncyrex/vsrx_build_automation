@@ -80,6 +80,7 @@
 
  - name: configuration of new user admin on the srx
    hosts: srx_vm
+   connection: local
    gather_facts: no
    tasks:
 
