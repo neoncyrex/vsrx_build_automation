@@ -57,7 +57,8 @@
        name: "{{openstack_ports[0].fixed_ips[0].ip_address}}"
        groups: srx_vm
 
-   - debug: var=groups
+   - name: display groups
+     debug: var=groups
 
    - name: wait unstill srx boots
      wait_for:
@@ -85,8 +86,11 @@
    connection: local
    gather_facts: no
    tasks:
-   - set_fact: mykey={{ lookup('file', '~/tmp/id_rsa.pub.' + rev) }}
-   - debug: var=mykey
+   - name: set fact
+     set_fact: mykey={{ lookup('file', '~/tmp/id_rsa.pub.' + rev) }}
+
+   - name: display key
+     debug: var=mykey
 
    - name: create admin user with ssh key
      junos_user:
