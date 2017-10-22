@@ -17,9 +17,9 @@
        flavor: "{{ flavor_name }}"
        security_groups: default
        nics:
-         - net-name: "{{mgmnt_network}}"
          - net-name: "{{left_network}}"
          - net-name: "{{right_network}}"
+         - net-name: "{{mgmnt_network}}"
        userdata: "{{lookup('file','../templates/base_config.j2')| string}}"
      environment:
         OS_USERNAME: "{{OSUSERNAME}}"
