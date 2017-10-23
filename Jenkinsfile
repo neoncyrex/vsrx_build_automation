@@ -41,7 +41,7 @@ node('jenkins') {
     sh "cd ansible;  ansible-playbook playbooks/publish_vsrx.yml -e rev=${rev}"
     echo "Pushing changes to permanent git repository"
     def repo = 'git@github.com:neoncyrex/example.git'
-    publish_repo_to_subdirectory(repo,'vsrx_build_automation','jenkins', rev)
+    publish_repo_to_subdirectory(repo,'automation/vsrx','jenkins', rev)
     sh "true"
   }
 }
