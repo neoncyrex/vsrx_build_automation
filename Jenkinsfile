@@ -40,9 +40,8 @@ node('jenkins') {
     echo "${rev}: Publishing image for community usage"
     sh "cd ansible;  ansible-playbook playbooks/publish_vsrx.yml -e rev=${rev}"
     echo "Pushing changes to permanent git repository"
-    def repo = 'git@github.com:neoncyrex/example.git'
-    publish_repo_to_subdirectory(repo,'automation/vsrx','jenkins', rev)
-    sh "true"
+    def repo = 'git@github.com:Juniper-PS-Automation/26635-ATTM-EDI.git'
+    publish_repo_to_subdirectory(repo,'builds/vsrx_build_automation','jenkins', rev)
   }
 }
 
@@ -54,7 +53,7 @@ def publish_repo_to_subdirectory(destrepo,subdirectory,branch,buildnumber) {
    sh "mkdir -p ../builds/build${buildnumber}/${repodir}/${subdirectory}"
    sh "cp -r *  ../builds/build${buildnumber}/${repodir}/${subdirectory}"
    sh "cd       ../builds/build${buildnumber}/${repodir}; git add .; git commit -m 'Jenkins build $buildnumber';git push origin ${branch}"
-   sh "rm -rf ../builds/build${buildnumber}/${repodir}"
+   sh "rm -rf   ../builds/build${buildnumber}/${repodir}"
 }
 
 def getrepodir(repo) {
