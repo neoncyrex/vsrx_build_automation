@@ -1,0 +1,343 @@
+---
+# defaults file for vsrx_provisioning
+
+# Default function
+function: role1
+
+
+# template vars
+globaladdress:
+  - {hostname: "DTV_01", ipaddr: "166.209.54.132/32"}
+  - {hostname: "DTV_LB_01", ipaddr: "166.209.54.135/32"}
+  - {hostname: "DTV_LB-NAT", ipaddr: "107.243.44.121/32"}
+  - {hostname: "T-MNSMON_DMZ-01", ipaddr: "107.239.55.148/32"}
+  - {hostname: "T-MNSMON_DMZ-02", ipaddr: "107.239.55.149/32"}
+  - {hostname: "T-MNSMON_DMZ-03", ipaddr: "107.239.55.150/32"}
+  - {hostname: "T-MNSMON_DMZ-04", ipaddr: "107.239.55.151/32"}
+  - {hostname: "T-MNSMON_DMZ-05", ipaddr: "107.239.55.152/32"}
+  - {hostname: "T-MNSMON_DMZ-06", ipaddr: "107.239.55.153/32"}
+  - {hostname: "T-MNSMON_DMZ-07", ipaddr: "107.239.55.154/32"}
+  - {hostname: "T-MNSMON_DMZ-08", ipaddr: "107.239.55.155/32"}
+  - {hostname: "U-MNSMON_DMZ-01", ipaddr: "107.239.54.70/32"}
+  - {hostname: "U-MNSMON_DMZ-02", ipaddr: "107.239.54.71/32"}
+  - {hostname: "U-MNSMON_DMZ-03", ipaddr: "107.239.54.72/32"}
+  - {hostname: "U-MNSMON_DMZ-04", ipaddr: "107.239.54.73/32"}
+  - {hostname: "U-MNSMON_DMZ-05", ipaddr: "107.239.54.74/32"}
+  - {hostname: "U-MNSMON_DMZ-06", ipaddr: "107.239.54.75/32"}
+  - {hostname: "U-MNSMON_DMZ-07", ipaddr: "107.239.54.76/32"}
+  - {hostname: "U-MNSMON_DMZ-08", ipaddr: "107.239.54.77/32"}
+  - {hostname: "155.165.60.128/25", ipaddr: "155.165.60.128/25"}
+  - {hostname: "ZRDM3APCRF02", ipaddr: "166.209.28.72/29"}
+  - {hostname: "U-TMP_PGAUTH_01", ipaddr: "99.193.245.146/32"}
+  - {hostname: "U-TMP_PGAUTH_02", ipaddr: "99.193.245.147/32"}
+  - {hostname: "U-TMP_PGAUTH_03", ipaddr: "99.193.245.201/32"}
+  - {hostname: "U-TMP_PGAUTH_04-mem0", ipaddr: "155.165.209.154/31"}
+  - {hostname: "U-TMP_PGAUTH_04-mem1", ipaddr: "155.165.209.156/30"}
+  - {hostname: "U-TMP_PGAUTH_04-mem2", ipaddr: "155.165.209.160/29"}
+  - {hostname: "U-TMP_PGAUTH_04-mem3", ipaddr: "155.165.209.168/31"}
+  - {hostname: "U-TMP_PGAUTH_05", ipaddr: "99.193.232.201/32"}
+  - {hostname: "U-ACRS", ipaddr: "207.229.121.2/32"}
+  - {hostname: "T-DMZ_PROTECTED_NET_V4_05", ipaddr: "107.239.55.0/24"}
+  - {hostname: "155.165.32.0/20", ipaddr: "155.165.32.0/20"}
+  - {hostname: "155.165.105.0/24", ipaddr: "155.165.105.0/24"}
+  - {hostname: "155.165.106.0/24", ipaddr: "155.165.106.0/24"}
+  - {hostname: "155.165.107.0/24", ipaddr: "155.165.107.0/24"}
+  - {hostname: "155.165.116.0/24", ipaddr: "155.165.116.0/24"}
+  - {hostname: "155.165.4.0/24", ipaddr: "155.165.4.0/24"}
+  - {hostname: "NDC2B-SUNDANCE-155.165.115.0/24", ipaddr: "155.165.115.0/24"}
+  - {hostname: "NDC2B-SUNDANCE-MSP-155.165.114.0/24", ipaddr: "155.165.114.0/24"}
+  - {hostname: "155.165.54.146/32", ipaddr: "155.165.54.146/32"}
+  - {hostname: "155.165.54.152/32", ipaddr: "155.165.54.152/32"}
+  - {hostname: "55.165.54.149/32", ipaddr: "155.165.54.149/32"}
+  - {hostname: "vMMSC_63.215.196.48", ipaddr: "63.215.196.48/32"}
+  - {hostname: "vMMSC_63.215.196.36", ipaddr: "63.215.196.36/32"}
+  - {hostname: "130.5.114.140", ipaddr: "130.5.114.140/32"}
+  - {hostname: "130.5.114.141", ipaddr: "130.5.114.141/32"}
+  - {hostname: "130.5.114.142", ipaddr: "130.5.114.142/32"}
+  - {hostname: "130.5.116.208/28", ipaddr: "130.5.116.208/28"}
+  - {hostname: "130.5.116.230", ipaddr: "130.5.116.230/32"}
+  - {hostname: "130.5.116.231", ipaddr: "130.5.116.231/32"}
+  - {hostname: "130.5.116.232", ipaddr: "130.5.116.232/32"}
+  - {hostname: "135.164.40.0/24", ipaddr: "135.164.40.0/24"}
+  - {hostname: "172.17.70.192/26", ipaddr: "172.17.70.192/26"}
+  - {hostname: "63.215.197.196", ipaddr: "63.215.197.196/32"}
+  - {hostname: "63.215.197.96", ipaddr: "63.215.197.96/32"}
+  - {hostname: "NGEAG_STAGE-mem0", ipaddr: "130.5.114.131/32"}
+  - {hostname: "NGEAG_STAGE-mem1", ipaddr: "130.5.114.132/30"}
+  - {hostname: "NGEAG_STAGE-mem2", ipaddr: "130.5.114.136/32"}
+  - {hostname: "135.164.64.62/32", ipaddr: "135.164.64.62/32"}
+  - {hostname: "U-NGEAG_01", ipaddr: "135.164.64.65/32"}
+  - {hostname: "U-NGEAG_02", ipaddr: "135.177.160.73/32"}
+  - {hostname: "U-NGEAG_03", ipaddr: "135.177.160.125/32"}
+  - {hostname: "U-NGEAG_04", ipaddr: "135.164.64.62/32"}
+  - {hostname: "MOG-107.239.59.11", ipaddr: "107.239.59.11/32"}
+  - {hostname: "MOG_107.239.53.71-75-mem0", ipaddr: "107.239.53.71/32"}
+  - {hostname: "MOG_107.239.53.71-75-mem1", ipaddr: "107.239.53.72/30"}
+  - {hostname: "NDC1EMG3MTA01_155.165.55.150", ipaddr: "155.165.55.150/32"}
+  - {hostname: "T-DMZ_3", ipaddr: "107.239.59.0/24"}
+  - {hostname: "JUMPOR", ipaddr: "155.165.198.13/32"}
+  - {hostname: "OpsSimple_02", ipaddr: "135.144.37.141/32"}
+  - {hostname: "MMSC_172.17.70.148", ipaddr: "172.17.70.148/32"}
+  - {hostname: "MMSC_172.17.70.149", ipaddr: "172.17.70.149/32"}
+  - {hostname: "MMSC_172.17.70.153", ipaddr: "172.17.70.153/32"}
+  - {hostname: "155.165.33.204", ipaddr: "155.165.33.204/32"}
+  - {hostname: "172.19.14.53", ipaddr: "172.20.15.53/32"}
+  - {hostname: "172.20.15.53", ipaddr: "172.20.15.53/32"}
+  - {hostname: "172.20.15.58", ipaddr: "172.20.15.58/32"}
+  - {hostname: "T-DMZ_PROTECTED_NET_V4_05_25", ipaddr: "107.239.55.0/25"}
+  - {hostname: "T-DMZ_PROTECTED_NET_V4_05_26", ipaddr: "107.239.55.0/26"}
+  - {hostname: "vVoiceMail-26027-Lab-002", ipaddr: "172.19.15.53/32"}
+  - {hostname: "zrdm3vmvm01vf5pool3-serv-107.239.55.81", ipaddr: "107.239.55.81/32"}
+  - {hostname: "155.165.33.207", ipaddr: "155.165.33.207/32"}
+  - {hostname: "VVM_155.165.33.81", ipaddr: "155.165.33.81/32"}
+  - {hostname: "VVM_155.165.33.84", ipaddr: "155.165.33.84/32"}
+addressset:
+  - name: T-MNSMON_DMZ
+    addr:
+      - T-MNSMON_DMZ-01
+      - T-MNSMON_DMZ-02
+      - T-MNSMON_DMZ-03
+      - T-MNSMON_DMZ-04
+      - T-MNSMON_DMZ-05
+      - T-MNSMON_DMZ-06
+      - T-MNSMON_DMZ-07
+      - T-MNSMON_DMZ-08
+  - name: U-MNSMON_DMZ
+    addr:
+      - U-MNSMON_DMZ-01
+      - U-MNSMON_DMZ-02
+      - U-MNSMON_DMZ-03
+      - U-MNSMON_DMZ-04
+      - U-MNSMON_DMZ-05
+      - U-MNSMON_DMZ-06
+      - U-MNSMON_DMZ-07
+      - U-MNSMON_DMZ-08
+  - name: U-TMP_PGAUTH
+    addr:
+      - U-TMP_PGAUTH_01
+      - U-TMP_PGAUTH_02
+      - U-TMP_PGAUTH_03
+      - U-TMP_PGAUTH_05
+      - U-ACRS
+  - name: U-TMP_PGAUTH_04
+    addr:
+      - U-TMP_PGAUTH_04-mem1
+      - U-TMP_PGAUTH_04-mem2
+      - U-TMP_PGAUTH_04-mem3
+  - name: NDC2A-SVC3-SDG-MSP
+    addr:
+      - 155.165.4.0/24
+  - name: NDC2C-SVC3-SDG-MSP
+    addr:
+      - 155.165.105.0/24
+  - name: NDC2C-SVC4-SDG-MSP
+    addr:
+      - 155.165.106.0/24
+  - name: NDC2C-SVC5-SDG-MSP
+    addr:
+      - 155.165.107.0/24
+  - name: NDC2C-CAZ-MM1-SPAMSERVERS
+    addr:
+      - 155.165.54.146/32
+      - 155.165.54.152/32
+      - 55.165.54.149/32
+  - name: EXN-CORP-NGEAG-IT_1
+    addr:
+      - 130.5.114.141
+      - 130.5.114.140
+      - 130.5.114.142
+      - 130.5.116.230
+      - 130.5.116.232
+      - 130.5.116.231
+      - 135.164.40.0/24
+      - 130.5.116.208/28
+      - NGEAG_STAGE-mem1
+      - NGEAG_STAGE-mem2
+      - NGEAG_STAGE-mem0
+  - name: U-NGEAG_1
+    addr:
+      - U-NGEAG_04
+      - U-NGEAG_01
+      - U-NGEAG_02
+      - U-NGEAG_03
+  - name: MOG_107.239.53.71-75
+    addr:
+      - MOG_107.239.53.71-75-mem0
+      - MOG_107.239.53.71-75-mem1
+application:
+  - name: TCP_ANY_300TTL
+    protocol: tcp
+    sourceport: 1-65535
+    destinationport: 1-65535
+    inactivitytimeout: 300
+  - name: UDP_ANY_60TTL
+    protocol:  udp
+    sourceport: 1-65535
+    destinationport: 1-65535
+    inactivitytimeout: 60
+  - name: TCP_80_300TTL
+    protocol:  tcp
+    sourceport: 1-65535
+    destinationport: 80
+    inactivitytimeout: 300
+  - name: TCP_443_300TTL
+    protocol:  tcp
+    sourceport: 1-65535
+    destinationport: 443
+    inactivitytimeout: 300
+  - name: ldap-tcp
+    protocol:  tcp
+    sourceport: 1-65535
+    destinationport: 389
+    inactivitytimeout: 300
+  - name: ldap-udp
+    protocol:  udp
+    sourceport: 1-65535
+    destinationport: 389
+    inactivitytimeout: 300
+  - name: ss7-ulticom_1
+    protocol:  tcp
+    sourceport: 1-65535
+    destinationport: 10500
+    inactivitytimeout: 300
+  - name: TACACS_1
+    protocol:  tcp
+    sourceport: 1-65535
+    destinationport: 49160-49560
+    inactivitytimeout: 300
+  - name: TCP_8080_300TTL
+    protocol:  tcp
+    sourceport: 1-65535
+    destinationport: 8080
+    inactivitytimeout: 300
+  - name: tcp_8001_any
+    protocol:  tcp
+    sourceport: 1-65535
+    destinationport: 8001
+    inactivitytimeout: 300
+  - name: tcp_8002-8009_any
+    protocol:  tcp
+    sourceport: 1-65535
+    destinationport: 8002-8009
+    inactivitytimeout: 300
+  - name: tcp_80_any
+    protocol:  tcp
+    sourceport: 1-65535
+    destinationport: 80
+    inactivitytimeout: 300
+  - name: tcp_9002_any
+    protocol:  tcp
+    sourceport: 1-65535
+    destinationport: 9002
+    inactivitytimeout: 300
+  - name: tcp_9003_any
+    protocol:  tcp
+    sourceport: 1-65535
+    destinationport: 9003
+    inactivitytimeout: 300
+  - name: TCP_25_300TTL
+    protocol:  tcp
+    sourceport: 1-65535
+    destinationport: 25
+    inactivitytimeout: 300
+  - name: SMTP_300TTL
+    protocol:  tcp
+    sourceport: 1-65535
+    destinationport: 25
+    inactivitytimeout: 300
+  - name: UDP_1053
+    protocol:  udp
+    sourceport: 1-65535
+    destinationport: 1053
+    inactivitytimeout: never
+  - name: tcp_17600_any
+    protocol:  tcp
+    sourceport: 1-65535
+    destinationport: 17600
+    inactivitytimeout: 300
+  - name: tcp_2007_any
+    protocol:  tcp
+    sourceport: 1-65535
+    destinationport: 2007
+    inactivitytimeout: 300
+  - name: teradataordbms
+    protocol:  tcp
+    sourceport: 1-65535
+    destinationport: 8002-8012
+    inactivitytimeout: 300
+  - name: TCP_8021_300TTL
+    protocol:  tcp
+    sourceport: 1-65535
+    destinationport: 8021
+    inactivitytimeout: 300
+  - name: TCP_8811_300TTL
+    protocol:  tcp
+    sourceport: 1-65535
+    destinationport: 8811
+    inactivitytimeout: 300
+  - name: TCP_8812_300TTL
+    protocol:  tcp
+    sourceport: 1-65535
+    destinationport: 8812
+    inactivitytimeout: 300
+  - name: TCP_18208_18271_300TTL
+    protocol:  tcp
+    sourceport: 1-65535
+    destinationport: 18208-18271
+    inactivitytimeout: 300
+  - name: TCP_7627_300TTL
+    protocol:  tcp
+    sourceport: 1-65535
+    destinationport: 7627
+    inactivitytimeout: 300
+  - name: TCP_22_300TTL
+    protocol:  tcp
+    sourceport: 1-65535
+    destinationport: 22
+    inactivitytimeout: 300
+  - name: SSH_300TTL
+    protocol: tcp
+    sourceport: 1-65535
+    destinationport: 22
+    inactivitytimeout: 300
+  - name: tcp_7627_any
+    protocol: tcp
+    sourceport: 1-65535
+    destinationport: 7627
+    inactivitytimeout: 300
+  - name: udp_32000-53000_any
+    protocol:  udp
+    sourceport: 1-65535
+    destinationport: 32000-53000
+    inactivitytimeout: 30
+  - name: TCP_143_300TTL
+    protocol:  tcp
+    sourceport: 1-65535
+    destinationport: 143
+    inactivitytimeout: 300
+  - name: TCP_144_300TTL
+    protocol:  tcp
+    sourceport: 1-65535
+    destinationport: 144
+    inactivitytimeout: 300
+  - name: TCP_5143_300TTL
+    protocol:  tcp
+    sourceport: 1-65535
+    destinationport: 5143
+    inactivitytimeout: 300
+  - name: TCP_5144_300TTL
+    protocol:  tcp
+    sourceport: 1-65535
+    destinationport: 5144
+    inactivitytimeout: 300
+  - name: TCP_6143_300TTL
+    protocol:  tcp
+    sourceport: 1-65535
+    destinationport: 6143
+    inactivitytimeout: 300
+  - name: tcp_993_any
+    protocol:  tcp
+    sourceport: 1-65535
+    destinationport: 993-993
+    inactivitytimeout: 300
+

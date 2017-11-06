@@ -1,0 +1,37 @@
+---
+#
+# This playbook provision vSRX configuration
+# This expects IP address of running vSRX instance
+# Variables
+#  - vsrx_ip - IP address of running vSRX instance
+#  - vsrx_username - user which will be used for connection
+#  - vsrx_password - password which will be usedf for connection
+# Usage:
+# ansible-playbook -e vsrx_ip=10.13.84.55 -e vsrx_username=root -e vsrx_password=Juniper123 provisioning.yml
+#
+
+ - name: provisioning vsrx configuration
+   hosts: localhost
+   connection: local
+   gather_facts: no
+   tasks:
+   - name: wait until srx boots
+     wait_for:
+       port: 22
+       host: "{{vsrx_mgt_ip}}"
+       delay: 5
+       timeout: 480
+
+   - name: create vsrx config
+     template: src=../templates/deploy_config.j2 dest=../templates/base_deploy_config.j2
+
+   - name: apply new configuration
+     junos_config:
+       src: "{{ ../templates/base_deploy_config.j2 }}"
+       update: merge
+       comment:  update existing config by ansible
+       provider:
+         host: "{{vsrx_ip}}"
+         username: "{{vsrx_username}}"
+         password: "{{vsrx_password}}"
+
