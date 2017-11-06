@@ -61,39 +61,37 @@
        name: "{{openstack_ports[0].fixed_ips[0].ip_address}}"
        groups: srx_vm
 
-- name: configuration of new user admin on the srx
-   hosts: localhost
-   connection: local
-   gather_facts: no
-   tasks:
-   - name: set fact
-     set_fact: mykey={{ lookup('file', '~/tmp/id_rsa.pub.' + rev) }}
 
-   - name: display key
-     debug: var=mykey
+# - name: create user and ssh key for srx access
+#   hosts: jenkins
+#   gather_facts: no
+#   tasks:
+#   - name: create vsrx user and ssh key
+#     user:
+#       name: "{{mechid}}"
+#       state: present
+#       generate_ssh_key: yes
+#       ssh_key_bits: 2048
+#       ssh_key_file: .ssh/id_rsa
 
-   - name: create admin user with ssh key
-     junos_user:
-       name: "{{mechid}}"
-       full_name: "Ansible and Automation MechID"
-       role: super-user
-       sshkey: "{{ lookup('file', '~/tmp/id_rsa.pub.' + rev) }}"
-       state: present
-       provider:
-         host: "{{srx_mgmntip}}"
-         username: "{{srx_user}}"
-         password: "{{srx_pass}}"
 
-   - name: update existing config
-     junos_config:
-       src: "{{ ../templates/base_config.j2 }}"
-       update: merge
-       comment:  update existing config by ansible
-       provider:
-         host: "{{srx_mgmntip}}"
-         username: "{{srx_user}}"
-         password: "{{srx_pass}}"
+# - name: configuration of new user admin on the srx
+#   hosts: srx_vm
+#   connection: local
+#   gather_facts: no
+#   tasks:
 
+#   - name: create admin user with ssh key
+#     junos_user:
+#       name: "{{mechid}}"
+#       full_name: "Ansible and Automation MechID"
+#       role: super-user
+#       sshkey: "{{ lookup('file', '/home/'+mechid+'/.ssh/id_rsa.pub') }}"
+#       state: present
+#       provider:
+#         host: "{{ groups['srx_vm'] |to_json | regex_search ('\\d[0-9]*.\\d[0-9]*.\\d[0-9]*.\\d[0-9]*')}}"
+#         username: "{{srx_user}}"
+#         password: "{{srx_pass}}"
 
  - name: stop VSRX compute instance
    hosts: localhost
@@ -120,8 +118,6 @@
      tags:
      - skip_ansible_lint
 
-# This is removed for demo purposes
-# Please uncomment once it is production
 #   - name: delete vSRX instance
 #     os_server:
 #       state: absent
