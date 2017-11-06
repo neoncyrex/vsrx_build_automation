@@ -46,7 +46,7 @@
         OS_AUTH_URL: "{{OSAUTHURL}}"
         OS_PROJECT_NAME: "{{OSPROJECTNAME}}"
 
-# This config will be pushed during provisioning 
+# This config will be pushed during provisioning
    - name: create vsrx config
      template: src=../templates/deploy_base_config.j2 dest=../templates/deploy_config.j2
 
