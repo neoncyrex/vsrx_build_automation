@@ -80,7 +80,7 @@
        sshkey: "{{ lookup('file', '~/tmp/id_rsa.pub.' + rev) }}"
        state: present
        provider:
-         host: "{{srx_mgmntip}}"
+         host: "{{openstack_ports[0].fixed_ips[0].ip_address}}"
          username: "{{srx_user}}"
          password: "{{srx_pass}}"
 
