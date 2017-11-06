@@ -5,7 +5,7 @@
    gather_facts: no
    tasks:
    - name: create vsrx config
-     template: src=../templates/config.j2 dest=../templates/base_config.j2
+     template: src=templates/config.j2 dest=/tmp/base_config.j2
 
    - name: deploy vsrx instance
      os_server:
@@ -20,7 +20,7 @@
          - net-name: "{{mgmnt_network}}"
          - net-name: "{{left_network}}"
          - net-name: "{{right_network}}"
-       userdata: "{{lookup('file','../templates/base_config.j2')| string}}"
+       userdata: "{{lookup('file','/tmp/base_config.j2')| string}}"
      environment:
         OS_USERNAME: "{{OSUSERNAME}}"
         OS_PASSWORD: "{{OSPASSWORD}}"
@@ -86,7 +86,7 @@
 
    - name: update existing config
      junos_config:
-       src: "../templates/base_config.j2"
+       src: "/tmp/base_config.j2"
        update: merge
        comment:  update existing config by ansible
        provider:
