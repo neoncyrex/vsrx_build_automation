@@ -1,7 +1,15 @@
 ---
-- name: check that all variables were provided
-  fail: msg="vsrx_ip vsrx_user vsrx_password are mandatory variables"
-  when: not (vsrx_ip is defined and vsrx_user is defined and vsrx_password is defined"
+- name: check that IP address is given
+  fail: msg="vsrx_ip must be defined"
+  when: not vsrx_ip is defined
+
+- name: check that username is given
+  fail: msg="vsrx_user must be defined"
+  when: not vsrx_user is define
+
+- name: check that password is given
+  fail: msg="vsrx_password must be defined"
+  when: not vsrx_password is define
 
 - name: wait until srx boots
   wait_for:
