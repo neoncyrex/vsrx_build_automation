@@ -61,7 +61,7 @@
        name: "{{openstack_ports[0].fixed_ips[0].ip_address}}"
        groups: srx_vm
 
-- name: configuration of new user admin on the srx
+ - name: configuration of new user admin on the srx
    hosts: localhost
    connection: local
    gather_facts: no
