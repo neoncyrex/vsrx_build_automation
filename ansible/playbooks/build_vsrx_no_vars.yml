@@ -21,19 +21,6 @@
        timeout: 480
 
 
-# - name: create user and ssh key for srx access
-#   hosts: jenkins
-#   gather_facts: no
-#   tasks:
-#   - name: create vsrx user and ssh key
-#     user:
-#       name: "{{mechid}}"
-#       state: present
-#       generate_ssh_key: yes
-#       ssh_key_bits: 2048
-#       ssh_key_file: .ssh/id_rsa
-
-
  - name: configuration of new user admin on the srx
    hosts: localhost
    connection: local
@@ -67,7 +54,8 @@
          username: "{{srx_user}}"
          password: "{{srx_pass}}"
 
-
+# This is removed for demo purposes
+# Please uncomment once it is production
 #   - name: delete vSRX instance
 #     os_server:
 #       state: absent
@@ -78,3 +66,4 @@
 #        OS_PASSWORD: "{{OSPASSWORD}}"
 #        OS_AUTH_URL: "{{OSAUTHURL}}"
 #        OS_PROJECT_NAME: "{{OSPROJECTNAME}}"
+

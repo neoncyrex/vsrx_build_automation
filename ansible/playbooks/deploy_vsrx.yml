@@ -46,9 +46,25 @@
         OS_AUTH_URL: "{{OSAUTHURL}}"
         OS_PROJECT_NAME: "{{OSPROJECTNAME}}"
 
+# This config will be pushed during provisioning 
+   - name: create vsrx config
+     template: src=../templates/deploy_base_config.j2 dest=../templates/deploy_config.j2
+
    - name: wait until srx boots
      wait_for:
        port: 22
        host: "{{openstack_ports[0].fixed_ips[0].ip_address}}"
        delay: 60
        timeout: 480
+
+# This tasks tries to deploy a production config to verify that it will work in prod
+   - name: deploy a production ready config to vSRX instance
+     junos_config:
+       src: "{{openstack_ports[0].fixed_ips[0].ip_address}}"
+       update: merge
+       comment:  update existing config by ansible
+       provider:
+         host: "{{srx_mgmntip}}"
+         username: "{{srx_user}}"
+         password: "{{srx_pass}}"
+
