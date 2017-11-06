@@ -86,7 +86,7 @@
 
    - name: update existing config
      junos_config:
-       src: "{{ ../templates/base_config.j2 }}"
+       src: "../templates/base_config.j2"
        update: merge
        comment:  update existing config by ansible
        provider:
