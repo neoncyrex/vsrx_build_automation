@@ -5,6 +5,20 @@ system {
     }
     login {
         message "THIS DEVICE MANAGED BY JUNOS SPACE - https://155.165.164.206/mainui/ \nFOR ACCESS, REQUEST GTAC Domain WTC-JUNOSSPACE_TL here: https://gtac-web.ipcoe.att.com/ \n \n \n    *********************************************************\n    *                                                       *\n    *                      WARNING!!!!!                     *\n    *                                                       *\n    *       This system is restricted to AT&T Mobility      *\n    *         authorized users for business purposes.       *\n    *                                                       *\n    *     Unauthorized access is a violation of the law.    *\n    *   This service may be monitored for administrative    *\n    *                  and security reasons.                *\n    *    By proceeding, you consent to this monitoring.     *\n    *                                                       *\n    *                      WARNING!!!!!                     *\n    *                                                       *\n    *********************************************************\n \n \n \n";
+        user admin {
+            uid 2000;
+            class super-user;
+            authentication {
+                ssh-rsa "ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAABAQC6+1FCjNoA+m7ZJ2qtx/TXWkDZQgCC75AeY27re9pNkLvpqsnr+y9s8J7UDSwjZuhNiayDBGKO90T7Eo2j9+yeL6psv2ByoYb20OK5NW75Kh9V1/vpWpXssHvSsxEAovolj+WRgaJaUb+Z8QJkdG5tA0+74+yRKubBnV1up1tkBD8dkPOG2npkg2qieLM1bdzOETk3VL2T4MsFbZYyLUABx2F2tsi2n9V/Y2TMreRUfc0D78vkPlH467OQnXQVH7wQLNOvupSXkqBr0LZy6z0TwnoxvsXe/J9N2dUvnYIYHXQH8JAanr6x6Ypz05Bv7ETIyU98Zx/gsyr1VVbPy9wR ansible-generated on localhost.localdomain"; ## SECRET-DATA
+            }
+        }
+        user admin1 {
+            uid 2001;
+            class super-user;
+            authentication {
+                ssh-rsa "ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAABAQC6+1FCjNoA+m7ZJ2qtx/TXWkDZQgCC75AeY27re9pNkLvpqsnr+y9s8J7UDSwjZuhNiayDBGKO90T7Eo2j9+yeL6psv2ByoYb20OK5NW75Kh9V1/vpWpXssHvSsxEAovolj+WRgaJaUb+Z8QJkdG5tA0+74+yRKubBnV1up1tkBD8dkPOG2npkg2qieLM1bdzOETk3VL2T4MsFbZYyLUABx2F2tsi2n9V/Y2TMreRUfc0D78vkPlH467OQnXQVH7wQLNOvupSXkqBr0LZy6z0TwnoxvsXe/J9N2dUvnYIYHXQH8JAanr6x6Ypz05Bv7ETIyU98Zx/gsyr1VVbPy9wR ansible-generated on localhost.localdomain"; ## SECRET-DATA
+            }
+        }                               
         user space {
             uid 8888;
             class super-user;
@@ -20,139 +34,43 @@ system {
             }
         }
     }
-   services {
+    services {
         ssh {
-            root-login deny;
-            max-sessions-per-connection 32;
+            root-login allow;
         }
         netconf {
             ssh;
+        }
+        web-management {
+            http {
+                interface fxp0.0;
+            }
         }
     }
     syslog {
         user * {
             any emergency;
         }
-        host 135.144.38.162 {
-            any any;
-            port 1514;
-            structured-data {
-                brief;
-            }
-        }
-        /* Logs to STRM/JSA, source from address of ge-0/0/2.0 */
-        host 107.243.71.142 {
-            any any;
-            port 514;
-            source-address 107.243.42.6;
-            structured-data {
-                brief;
-            }
-        }
         file messages {
             any any;
             authorization info;
         }
         file interactive-commands {
-            interactive-commands any;
+            interactive-commands any;   
         }
-        file test {
-            any any;
-            match "!RT_FLOW";
-        }
-        file session_log {
-            any info;
-            structured-data;
-        }
-        file default-log-messages {
-            any info;
-            match "(requested 'commit' operation)|(copying configuration to juniper.save)|(commit complete)|ifAdminStatus|(FRU power)|(FRU removal)|(FRU insertion)|(link UP)|transitioned|Transferred|transfer-file|(license add)|(license delete)|(package -X update)|(package -X delete)|(FRU Online)|(FRU Offline)|(plugged in)|(unplugged)|GRES|(AIS_DATA_AVAILABLE)|(AIS_DATA_AVAILABLE)";
-            structured-data;
-        }
-        source-address 107.239.88.143;
     }
     license {
         autoupdate {
             url https://ae1.juniper.net/junos/key_retrieval;
         }
     }
-    processes {
-        dhcp-service {
-            traceoptions {
-                file dhcptrace size 10k files 2 world-readable;
-                flag all;
-            }
-        }
-    }
 }
 security {
-     log {
+    log {
         mode stream;
-        format sd-syslog;
-        /* OTHER:HSL_NETL3-FW-LOGInterface ge-0/0/2.0*/
-        source-address 107.243.42.6;
-        stream AAP-JSA {
-            severity info;
-            format sd-syslog;
-            category all;
-            host {
-                107.243.71.142;
-            }
-        }
+        report;
     }
-     address-book {
-        global {
-        {% for host in globaladdress %}
-        address {{host.hostname}} {{host.ipaddr}};
-        {% endfor %}
-        {% for addr in addressset recursive %}             
-        address-set {{addr.name}} {
-        {% for addr1 in addr.addr %}
-        address {{addr1}};
-        {% endfor %}
-            }
-        {% endfor %}
-        }
-    }
-    forwarding-options {
-        family {
-            inet6 {
-                mode flow-based;
-            }
-        }
-    }                          
-   screen {
-        ids-option U-OAM_PROTECTED_NET_SCREEN {
-            icmp {
-                ip-sweep threshold 1000;
-                fragment;
-                large;
-                flood threshold 1000;
-                ping-death;
-            }
-            ip {
-                bad-option;
-                spoofing;
-                unknown-protocol;
-                tear-drop;
-            }
-            tcp {
-                syn-fin;
-                fin-no-ack;
-                tcp-no-flag;
-                syn-frag;
-                port-scan threshold 1000;
-                syn-ack-ack-proxy threshold 1000;
-                syn-flood {
-                    attack-threshold 1000;
-                }
-                land;
-                winnuke;
-            }
-            udp {
-                flood threshold 1000;
-            }
-        }
+    screen {
         ids-option untrust-screen {
             icmp {
                 ping-death;
@@ -174,377 +92,38 @@ security {
             }
         }
     }
-    nat {
-        source {
-            rule-set TU-NAT {
-                from zone T-DMZ_PROTECTED_NET;
-                to zone U-DMZ_DIRECT_NET;
-                rule 100 {
-                    match {
-                        source-address [ 107.239.55.0/24 107.243.79.128/26 107.243.111.128/26 166.209.22.128/25 166.209.54.128/25 ];
-                    }
-                    then {
-                        source-nat {
-                            interface;
-                        }
-                    }
-                }
-                rule 200 {
-                    match {
-                        source-address [ 2606:ae00:b800:2480::0/64 2606:ae00:b800:24c1::0/64 2606:ae00:b800:24e1::0/64 2606:ae00:b800:24c0::0/64 2606:ae00:b800:24e0::0/64 ];
-                    }
-                    then {
-                        source-nat {
-                            interface;
-                        }
-                    }
-                }
-            }
-        }
-        destination {
-            pool dtv-lb {
-                address 107.243.44.121/32;
-            }
-            rule-set UT-NAT {
-                from zone U-DMZ_DIRECT_NET;
-                rule 100 {
-                    match {
-                        destination-address 107.239.55.94/32;
-                    }
-                    then {
-                        destination-nat {
-                            pool {
-                                dtv-lb;
-                            }
-                        }
-                    }
-                }
-            }
-        }
-    }
     policies {
-        from-zone U-DMZ_DIRECT_NET to-zone T-DMZ_PROTECTED_NET {
-            policy UT-DEFAULT_MNSMON {
-                description "MNSMON: Allow Network Monitoring Flows between MNSMON Nodes";
-                match {
-                    source-address [ U-MNSMON_DMZ JUMPOR OpsSimple_02 ];
-                    destination-address T-MNSMON_DMZ;
-                    application [ MNSMON_PROTECTED PING_2 TCP_22_300TTL ];
-                }
-                then {
-                    permit;
-                    log {
-                        session-init;
-                        session-close;
-                    }
-                }
-            }
-            policy UT-DTV-TMP {
-                match {
-                    source-address any;
-                    destination-address [ DTV_LB_01 DTV_LB-NAT ];
-                    application [ TCP_80_300TTL TCP_443_300TTL junos-ping ];
-                }
-                then {
-                    permit;
-                    log {
-                        session-init;
-                        session-close;
-                    }
-                }
-            }
-            policy VVoicemail {
-                match {
-                    source-address any;
-                    destination-address zrdm3vmvm01vf5pool3-serv-107.239.55.81;
-                    application [ TCP_143_300TTL TCP_5143_300TTL TCP_6143_300TTL TCP_144_300TTL tcp_993_any TCP_5144_300TTL VVM_service TCP_8811_300TTL TCP_8812_300TTL ];
-                }
-                then {
-                    permit;
-                    log {
-                        session-init;
-                        session-close;
-                    }
-                }
-            }
-            policy UT-DTV-MOG {
-                match {
-                    source-address [ U-TMP_PGAUTH MOG_107.239.53.71-75 MOG-107.239.59.11 ];
-                    destination-address T-DMZ_PROTECTED_NET_V4_05;
-                    application [ HTTP_300TTL_1 MOG ];
-                }
-                then {
-                    permit;
-                    log {
-                        session-init;
-                        session-close;
-                    }
-                }
-            }
-            policy LEGACY-TO-VMMSC {
-                match {
-                    source-address [ 155.165.32.0/20 NDC2A-SVC3-SDG-MSP NDC2C-SVC3-SDG-MSP NDC2C-SVC4-SDG-MSP NDC2C-SVC5-SDG-MSP NDC2B-SUNDANCE-MSP-155.165.114.0/24 NDC2B-SUNDANCE-155.165.115.0/24 155.165.116.0/24 ];
-                    destination-address T-DMZ_PROTECTED_NET_V4_05;
-                    application [ HTTP-9002-9003 MMS-MMSC-HTTP junos-smtp ];
-                }
-                then {
-                    permit;
-                    log {
-                        session-init;
-                        session-close;
-                    }
-                }
-            }
-            policy LEGACY-TO-VMMSC-1 {
-                match {
-                    source-address [ 63.215.197.96 EXN-CORP-NGEAG-IT_1 172.17.70.192/26 NDC1EMG3MTA01_155.165.55.150 MMSC_172.17.70.148 MMSC_172.17.70.149 MMSC_172.17.70.153 ];
-                    destination-address T-DMZ_PROTECTED_NET_V4_05;
-                    application [ TCP_25_300TTL TCP-2007 ];
-                }
-                then {
-                    permit;
-                    log {
-                        session-init;
-                        session-close;
-                    }
-                }
-            }
-            policy UT-99999 {
+        from-zone trust to-zone trust {
+            policy default-permit {     
                 match {
                     source-address any;
                     destination-address any;
                     application any;
                 }
                 then {
-                    deny;
-                    log {
-                        session-init;
-                        session-close;
-                    }
+                    permit;
                 }
             }
         }
-        from-zone T-DMZ_PROTECTED_NET to-zone U-DMZ_DIRECT_NET {
-            policy TU-DEFAULT_MNSMON {
-                description "MNSMON: Allow Network Monitoring Flows between MNSMON Nodes";
-                match {
-                    source-address T-MNSMON_DMZ;
-                    destination-address U-MNSMON_DMZ;
-                    application [ MNSMON_DIRECT PING_2 SSH_300TTL ];
-                }
-                then {
-                    permit;
-                    log {
-                        session-init;
-                        session-close;
-                    }
-                }
-            }
-            policy TU-DTV-TMP {
-                match {
-                    source-address DTV_01;
-                    destination-address any;
-                    application [ TCP_ANY_300TTL UDP_ANY_60TTL PING_2 ];
-                }
-                then {
-                    permit;
-                    log {
-                        session-init;
-                        session-close;
-                    }
-                }
-            }
-            policy TU-DTV-MOG {
-                match {
-                    source-address T-DMZ_PROTECTED_NET_V4_05;
-                    destination-address [ U-TMP_PGAUTH MOG_107.239.53.71-75 MOG-107.239.59.11 T-DMZ_3 ];
-                    application [ HTTP_300TTL_1 sun-sr-https ];
-                }
-                then {
-                    permit;
-                    log {
-                        session-init;
-                        session-close;
-                    }
-                }
-            }
-            policy VMMSC-TO-LEGACY {
-                match {
-                    source-address T-DMZ_PROTECTED_NET_V4_05;
-                    destination-address 155.165.32.0/20;
-                    application [ HTTP-9002-9003 MMS-MMSC-HTTP ];
-                }
-                then {
-                    permit;
-                    log {
-                        session-init;
-                        session-close;
-                    }
-                }
-            }
-            policy VMMSC-TO-LEGACY-1 {
-                match {
-                    source-address T-DMZ_PROTECTED_NET_V4_05;
-                    destination-address [ 155.165.32.0/20 NDC2C-CAZ-MM1-SPAMSERVERS vMMSC_63.215.196.48 vMMSC_63.215.196.36 63.215.197.196 135.164.64.62/32 U-NGEAG_1 ];
-                    application [ MMS-MMSC-HTTP TCP-17600 junos-smtp DNS remote-as UDP_1053 VMMSC-EGRESS TCP_8021_300TTL tcp_7627_any ];
-                }
-                then {
-                    permit;
-                    log {
-                        session-init;
-                        session-close;
-                    }
-                }
-            }
-            policy TU-PCRF {
-                match {
-                    source-address ZRDM3APCRF02;
-                    destination-address 155.165.60.128/25;
-                    application LDAP-ALL;
-                }
-                then {
-                    permit;
-                    log {
-                        session-init;
-                        session-close;
-                    }
-                }
-            }
-            policy vVoiceMail-LAB-002-TO-LEGACY {
-                match {
-                    source-address T-DMZ_PROTECTED_NET_V4_05;
-                    destination-address [ 155.165.33.204 155.165.32.0/20 ];
-                    application [ TCP_7627_300TTL PING_1 traceroute-all_1 TCP_53892_300TTL TCP_18208_18271_300TTL TCP_17500_17567_300TTL TCP_18080_18143_300TTL TCP-17376-17439 ];
-                }
-                then {
-                    permit;
-                    log {
-                        session-init;
-                        session-close;
-                    }
-                }
-            }
-            policy vVoiceMail-LAB-002-TO-LEGACY-2 {
-                match {
-                    source-address T-DMZ_PROTECTED_NET_V4_05;
-                    destination-address [ VVM_155.165.33.81 VVM_155.165.33.84 155.165.33.207 ];
-                    application TCP_7627_300TTL;
-                }
-                then {
-                    permit;
-                    log {
-                        session-init;
-                        session-close;
-                    }
-                }
-            }
-            policy vVoiceMail-LAB-002-TO-LEGACY-1 {
-                match {
-                    source-address T-DMZ_PROTECTED_NET_V4_05;
-                    destination-address vVoiceMail-26027-Lab-002;
-                    application [ TCP_18208_18271_300TTL TCP_53890_300TTL TCP_53892_300TTL TCP_17500_17567_300TTL TCP_18080_18143_300TTL ];
-                }
-                then {
-                    permit;
-                    log {
-                        session-init;
-                        session-close;
-                    }
-                }
-            }
-            policy vVoiceMail-LAB-003-TO-LEGACY {
-                match {
-                    source-address T-DMZ_PROTECTED_NET_V4_05_25;
-                    destination-address 172.20.15.53;
-                    application [ TCP_18208_18271_300TTL TCP_53890_300TTL TCP_53892_300TTL TCP_17500_17567_300TTL TCP_18080_18143_300TTL ];
-                }
-                then {
-                    permit;
-                    log {
-                        session-init;
-                        session-close;
-                    }
-                }
-            }
-            policy vVoiceMail-LAB-004-TO-LEGACY {
-                match {
-                    source-address T-DMZ_PROTECTED_NET_V4_05_26;
-                    destination-address 172.19.14.53;
-                    application [ TCP_18208_18271_300TTL TCP_53890_300TTL TCP_53892_300TTL TCP_17500_17567_300TTL TCP_18080_18143_300TTL ];
-                }
-                then {
-                    permit;
-                    log {
-                        session-init;
-                        session-close;
-                    }
-                }
-            }
-            policy vVoiceMail-LAB-005-TO-LEGACY {
-                match {
-                    source-address T-DMZ_PROTECTED_NET_V4_05;
-                    destination-address 172.20.15.58;
-                    application [ TCP_18208_18271_300TTL TCP_53890_300TTL TCP_53892_300TTL TCP_17500_17567_300TTL TCP_18080_18143_300TTL ];
-                }
-                then {
-                    permit;
-                    log {
-                        session-init;
-                        session-close;
-                    }
-                }
-            }
-            policy TU-99999 {
+        from-zone trust to-zone untrust {
+            policy default-permit {
                 match {
                     source-address any;
                     destination-address any;
                     application any;
                 }
                 then {
-                    deny;
-                    log {
-                        session-init;
-                    }
+                    permit;
                 }
             }
         }
     }
     zones {
-        security-zone T-DMZ_PROTECTED_NET {
-            interfaces {
-                ge-0/0/0.0 {
-                    host-inbound-traffic {
-                        system-services {
-                            dhcp;
-                            dhcpv6;
-                            ping;
-                            inactive: all;
-                        }
-                        protocols {
-                            router-discovery;
-                        }
-                    }
-                }
-            }
+        security-zone trust {
+            tcp-rst;
         }
-        security-zone U-DMZ_DIRECT_NET {
+        security-zone untrust {
             screen untrust-screen;
-            interfaces {
-                ge-0/0/1.0 {
-                    host-inbound-traffic {
-                        system-services {
-                            dhcp;
-                            dhcpv6;
-                            ping;
-                            inactive: snmp;
-                            inactive: all;
-                        }
-                        protocols {
-                            router-discovery;
-                        }
-                    }
-                }
-            }
         }
     }
 }
@@ -553,10 +132,7 @@ interfaces {
         description "T-DMZ_PROTECTED_NET Interface";
         unit 0 {
             family inet {
-                dhcp-client;
-            }
-            family inet6 {
-                address 2606:ae00:b800:2480::6/64;
+                dhcp-client;            
             }
         }
     }
@@ -566,500 +142,13 @@ interfaces {
             family inet {
                 dhcp-client;
             }
-            family inet6 {
-                address 2606:ae00:b800:2400::6/64;
-            }
         }
     }
     fxp0 {
-        description "OAM_MGMT_NET Interface";
         unit 0 {
             family inet {
                 dhcp-client;
             }
-            family inet6 {
-                address 2606:ae00:e200:84::7/64;
-            }
-        }
-    }
-    lo0 {
-        unit 0 {
-            family inet {
-                inactive: filter {
-                    input RE-PROTECT;
-                }
-                address 127.0.0.1/32;
-            }
-            family inet6 {
-                inactive: filter {
-                    input RE-PROTECTV6;
-                }
-                address ::1/128;
-            }
         }
     }
 }
-snmp {
-    name ZRDM3FRWL01DMZ001;
-    description "LCP1 RMD3 MNS DMZFW01";
-    location Willows-Production-MNS-RDM3-LCP1;
-    interface fxp0.0;
-    filter-duplicates;
-    engine-id {
-        use-mac-address;
-    }
-    client-list PMOSS-SERVERS {
-        135.21.162.4/32;
-        135.144.38.162/32;
-        135.21.235.10/32;
-        135.21.235.11/32;
-        135.91.24.15/32;
-        135.91.24.16/32;
-        135.91.24.17/32;
-        135.91.24.18/32;
-        135.91.24.19/32;
-    }
-    community dcaedev {
-        authorization read-only;
-        client-list-name PMOSS-SERVERS;
-    }
-    community dcaev {
-        clients {
-            135.144.38.162/32;
-            135.21.162.4/32;
-            135.21.235.10/32;
-            135.91.24.17/32;
-        }
-    }
-    community public {
-        authorization read-only;
-    }
-    trap-options {
-        source-address 107.239.88.143;
-    }
-    trap-group SRX-TRAPS {
-        version v2;
-        categories {
-            chassis;
-            link;
-            routing;
-            startup;
-            rmon-alarm;
-            configuration;
-        }
-        targets {
-            135.144.38.162;
-            135.22.162.4;
-        }
-    }
-    trap-group space {
-        targets {
-            107.250.222.147;
-            155.165.165.181;
-            155.165.165.180;
-        }
-    }
-    health-monitor {
-        interval 300;
-        rising-threshold 90;
-        falling-threshold 80;
-    }
-}
-routing-options {
-    rib inet6.0 {
-        static {
-            route ::0/0 {
-                next-hop 2606:ae00:e200:84::1;
-                retain;
-            }
-        }
-    }
-    rib inet.0 {
-        static {
-            route 0.0.0.0/0 {
-                next-hop 107.239.88.129;
-                retain;
-            }
-            route 107.243.71.128/25 {
-                next-hop 107.243.42.1;
-                retain;
-            }
-            route 107.243.44.120/29 {
-                next-hop 107.239.55.1;
-                retain;
-            }
-        }
-    }
-}
-protocols {
-    router-advertisement {
-        interface fxp0.0;
-        interface ge-0/0/0.0;
-        interface ge-0/0/1.0;
-    }
-}
-firewall {
-    family inet {
-        filter RE-PROTECT {
-            term 1 {
-                from {
-                    port [ ftp ssh https radius snmp dhcp ];
-                }
-                then {
-                    log;
-                    syslog;
-                    accept;
-                }
-            }
-            term 2 {
-                from {
-                    icmp-type [ echo-request echo-reply ];
-                }
-                then {
-                    log;
-                    syslog;
-                    accept;
-                }
-            }
-            term 3 {
-                then {
-                    log;
-                    syslog;
-                    discard;
-                }
-            }
-        }
-    }
-    family inet6 {
-        filter RE-PROTECTV6 {
-            term 1 {
-                from {
-                    port [ ftp ssh https radius snmp dhcp tacacs ];
-                }
-                then {
-                    log;
-                    syslog;
-                    accept;
-                }
-            }
-            term 2 {
-                from {
-                    icmp-type [ echo-request echo-reply ];
-                }
-                then {
-                    log;
-                    syslog;
-                    accept;
-                }
-            }
-            term 3 {
-                then {
-                    log;
-                    syslog;
-                    discard;
-                }
-            }
-        }
-    }
-}
-routing-instances {
-    VR-MNS_DMZ_NET {
-        instance-type virtual-router;
-        interface ge-0/0/0.0;
-        interface ge-0/0/1.0;
-        routing-options {
-            rib VR-MNS_DMZ_NET.inet.0 {
-                static {
-                    route 0.0.0.0/0 {
-                        next-hop 107.239.54.1;
-                        retain;
-                    }
-                    route 107.243.79.128/26 {
-                        next-hop 107.239.55.1;
-                        retain;
-                    }
-                    route 107.243.111.128/26 {
-                        next-hop 107.239.55.1;
-                        retain;
-                    }
-                    route 166.209.22.128/25 {
-                        next-hop 107.239.55.1;
-                        retain;
-                    }
-                    route 166.209.54.128/25 {
-                        next-hop 107.239.55.1;
-                        retain;
-                    }
-                    route 107.243.44.120/29 {
-                        next-hop 107.239.55.1;
-                        retain;
-                    }
-                }
-            }
-            rib VR-MNS_DMZ_NET.inet6.0 {
-                static {
-                    route ::0/0 {
-                        next-hop 2606:ae00:b800:2400::1;
-                        retain;
-                    }
-                    route 2606:ae00:b800:24c1::0/64 {
-                        next-hop 2606:ae00:b800:2480::1;
-                        retain;
-                    }
-                    route 2606:ae00:b800:24e1::0/64 {
-                        next-hop 2606:ae00:b800:2480::1;
-                        retain;
-                    }
-                    route 2606:ae00:b800:24c0::0/64 {
-                        next-hop 2606:ae00:b800:2480::1;
-                        retain;
-                    }
-                    route 2606:ae00:b800:24e0::0/64 {
-                        next-hop 2606:ae00:b800:2480::1;
-                        retain;
-                    }
-                }
-            }
-        }
-    }
-}
-applications {
-    application PING_V4 {
-        protocol icmp;
-        icmp-type 0;
-        icmp-code 0;
-    }
-    application PING_V6 {
-        protocol icmp6;
-        icmp6-type 0;
-        icmp6-code 0;
-    }
-    application MNSMON_DIRECT_TCP_40001_300TTL {
-        protocol tcp;
-        destination-port 40001;
-        inactivity-timeout 300;
-    }
-    application MNSMON_DIRECT_TCP_40002_300TTL {
-        protocol tcp;
-        destination-port 40002;
-        inactivity-timeout 300;
-    }
-    application MNSMON_DIRECT_TCP_40003_300TTL {
-        protocol tcp;
-        destination-port 40003;
-        inactivity-timeout 300;
-    }
-    application MNSMON_DIRECT_TCP_40004_300TTL {
-        protocol tcp;
-        destination-port 40004;
-        inactivity-timeout 300;
-    }
-    application MNSMON_DIRECT_TCP_40005_300TTL {
-        protocol tcp;
-        destination-port 40005;
-        inactivity-timeout 300;
-    }
-    application MNSMON_DIRECT_TCP_40006_300TTL {
-        protocol tcp;
-        destination-port 40006;
-        inactivity-timeout 300;
-    }
-    application MNSMON_DIRECT_TCP_40007_300TTL {
-        protocol tcp;
-        destination-port 40007;
-        inactivity-timeout 300;
-    }
-    application MNSMON_DIRECT_TCP_40008_300TTL {
-        protocol tcp;
-        destination-port 40008;
-        inactivity-timeout 300;
-    }
-    application MNSMON_PROTECTED_TCP_45001_300TTL {
-        protocol tcp;
-        destination-port 45001;
-        inactivity-timeout 300;
-    }
-    application MNSMON_PROTECTED_TCP_45002_300TTL {
-        protocol tcp;
-        destination-port 45002;
-        inactivity-timeout 300;
-    }
-    application MNSMON_PROTECTED_TCP_45003_300TTL {
-        protocol tcp;
-        destination-port 45003;
-        inactivity-timeout 300;
-    }
-    application MNSMON_PROTECTED_TCP_45004_300TTL {
-        protocol tcp;
-        destination-port 45004;
-        inactivity-timeout 300;
-    }
-    application MNSMON_PROTECTED_TCP_45005_300TTL {
-        protocol tcp;
-        destination-port 45005;
-        inactivity-timeout 300;
-    }
-    application MNSMON_PROTECTED_TCP_45006_300TTL {
-        protocol tcp;
-        destination-port 45006;
-        inactivity-timeout 300;
-    }
-    application MNSMON_PROTECTED_TCP_45007_300TTL {
-        protocol tcp;
-        destination-port 45007;
-        inactivity-timeout 300;
-    }
-    application MNSMON_PROTECTED_TCP_45008_300TTL {
-        protocol tcp;
-        destination-port 45008;
-        inactivity-timeout 300;
-    }
-    application sun-sr-https {
-        term t1 protocol tcp source-port 1-65535 destination-port 6443 inactivity-timeout 300;
-        term t2 alg telnet protocol tcp source-port 1-65535 destination-port 6443 inactivity-timeout 300;
-    }
-    application dectalk {
-        term t1 protocol tcp destination-port 2007 inactivity-timeout 300;
-        term t2 protocol udp destination-port 2007 inactivity-timeout 60;
-    }
-    application ppg {
-        term t1 protocol tcp destination-port 9002 inactivity-timeout 300;
-        term t2 protocol udp destination-port 9002 inactivity-timeout 60;
-    }
-    application remote-as {
-        term t1 protocol tcp destination-port 1053 inactivity-timeout 300;
-        term t2 protocol udp destination-port 1053 inactivity-timeout 60;
-    }
-    application sag {
-        term t1 protocol tcp destination-port 17600 inactivity-timeout 300;
-        term t2 protocol udp destination-port 17600 inactivity-timeout 60;
-    }
-    application TCP_53890_300TTL {
-        protocol tcp;
-        destination-port 53890;
-        inactivity-timeout 300;
-    }
-    application TCP_53892_300TTL {
-        protocol tcp;
-        destination-port 53892;
-        inactivity-timeout 300;
-    }
-    application icmp_8_0_1 {
-        protocol icmp;
-        icmp-type 8;
-        icmp-code 0;
-        inactivity-timeout 30;
-    }
-    application VVM_service {
-        term TCP protocol tcp destination-port 143;
-        term TCP-993 protocol tcp destination-port 993;
-        term TCP-5400 protocol tcp destination-port 5400;
-        term TCP-5433 protocol tcp destination-port 5433;
-        term TCP-7993 protocol tcp destination-port 7993;
-        term TCP-5533 protocol tcp destination-port 5533;
-    }
-    application TCP-17376-17439 {
-        protocol tcp;
-        source-port 1-65535;
-        destination-port 17376-17439;
-    }
-    application TCP_17500_17567_300TTL {
-        protocol tcp;
-        source-port 1-65535;
-        destination-port 17500-17567;
-    }
-    application TCP_18080_18143_300TTL {
-        protocol tcp;
-        source-port 1-65535;
-        destination-port 18080-18143;
-    }
-    application-set MNSMON_DIRECT {
-        application MNSMON_DIRECT_TCP_40001_300TTL;
-        application MNSMON_DIRECT_TCP_40002_300TTL;
-        application MNSMON_DIRECT_TCP_40003_300TTL;
-        application MNSMON_DIRECT_TCP_40004_300TTL;
-        application MNSMON_DIRECT_TCP_40005_300TTL;
-        application MNSMON_DIRECT_TCP_40006_300TTL;
-        application MNSMON_DIRECT_TCP_40007_300TTL;
-        application MNSMON_DIRECT_TCP_40008_300TTL;
-    }
-    application-set MNSMON_PROTECTED {
-        application MNSMON_PROTECTED_TCP_45001_300TTL;
-        application MNSMON_PROTECTED_TCP_45002_300TTL;
-        application MNSMON_PROTECTED_TCP_45003_300TTL;
-        application MNSMON_PROTECTED_TCP_45004_300TTL;
-        application MNSMON_PROTECTED_TCP_45005_300TTL;
-        application MNSMON_PROTECTED_TCP_45006_300TTL;
-        application MNSMON_PROTECTED_TCP_45007_300TTL;
-        application MNSMON_PROTECTED_TCP_45008_300TTL;
-    }
-    application-set PING_2 {
-        application junos-icmp-all;
-        application junos-icmp-ping;
-        application junos-icmp6-all;
-        application PING_V4;
-        application PING_V6;
-    }
-    application-set LDAP-ALL {
-        application ldap-tcp;
-        application ldap-udp;
-    }
-    application-set MOG {
-        application sun-sr-https;
-        application ss7-ulticom_1;
-        application TACACS_1;
-    }
-    application-set HTTP_300TTL_1 {
-        application TCP_80_300TTL;
-        application TCP_443_300TTL;
-        application TCP_8080_300TTL;
-    }
-    application-set HTTP-9002-9003 {
-        application tcp_9002_any;
-        application tcp_9003_any;
-    }
-    application-set MMS-MMSC-HTTP {
-        application tcp_80_any;
-        application tcp_8002-8009_any;
-        application tcp_8001_any;
-    }
-    application-set DNS {
-        application junos-dns-tcp;
-        application junos-dns-udp;
-    }
-    application-set MAIL_1 {
-        application SMTP_300TTL;
-    }
-    application-set TCP-17600 {
-        application tcp_17600_any;
-    }
-    application-set TCP-2007 {
-        application tcp_2007_any;
-    }
-    application-set VMMSC-EGRESS {
-        application sag;
-        application ppg;
-        application dectalk;
-        application teradataordbms;
-        application remote-as;
-        application-set MAIL_1;
-    }
-    application-set PING_1 {
-        application PING_V4;
-        application PING_V6;
-        application junos-icmp-all;
-    }
-    application-set traceroute-all_1 {
-        application icmp_8_0_1;
-        application udp_32000-53000_any;
-    }
-    {% for apl in application %}
-    application {{apl.name}} {
-        protocol {{apl.protocol}};
-        source-port {{apl.sourceport}};
-        destination-port {{apl.destinationport}};
-        inactivity-timeout {{apl.inactivitytimeout}};
-    }
-    {% endfor %}
-}
-
