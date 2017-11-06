@@ -56,7 +56,7 @@
          host: "{{srx_mgmntip}}"
          username: "{{srx_user}}"
          password: "{{srx_pass}}"
-         
+
    - name: update existing config
      junos_config:
        src: "{{ ../templates/base_config.j2 }}"
