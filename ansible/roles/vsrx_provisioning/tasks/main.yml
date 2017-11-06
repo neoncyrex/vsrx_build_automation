@@ -1,4 +1,8 @@
 ---
+- name: check that all variables were provided
+  fail: msg="vsrx_ip vsrx_user vsrx_password are mandatory variables"
+  when: not (vsrx_ip is defined and vsrx_user is defined and vsrx_password is defined"
+
 - name: wait until srx boots
   wait_for:
     port: 22
@@ -17,4 +21,4 @@
     provider:
       host: "{{vsrx_ip}}"
       username: "{{vsrx_user}}"
-      password: "{{vsrx_password}}
+      password: "{{vsrx_password}}"
