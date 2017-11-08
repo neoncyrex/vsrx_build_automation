@@ -14,9 +14,9 @@ Role Variables
 Variable | Mandatory? | Description
 -------- | ---------- | -----------
 vsrx_ip  | YES | IP address of running instance of vSRX
-vsrx_user | YES | Username which will be used to connected to vSRX instance
-vsrx_password | YES | Password to connect
-vsrx_sshkeyfile | NO | path to user ssh key (could be used instead of password) 
+vsrx_user | NO | Username which will be used to connected to vSRX instance. If the value is not specified in the task, the value of environment variable ANSIBLE_NET_USERNAME will be used instead
+vsrx_password | NO | Password to connect. If the value is not specified in the task, the value of environment variable ANSIBLE_NET_SSH_KEYFILE will be used instead
+vsrx_sshkeyfile | NO | path to user ssh key. If the value is not specified in the task, the value of environment variable ANSIBLE_NET_SSH_KEYFILE will be used instead
 function | NO | vSRX function which has to be applied, default it to apply basic configuration file. in future it can be extended
 
 
@@ -34,6 +34,8 @@ This playbook shows how to apply role to a new device with default function
   roles:
     - { role: vsrx_provisioning, vsrx_ip: 10.13.84.55, vsrx_user: srxadmin, vsrx_password: somestongpassword }
     - { role: vsrx_provisioning, vsrx_ip: 10.13.84.55, vsrx_user: srxadmin, vsrx_sshkeyfile: ~\.ssh\id_rsa.pub }
+    - { role: vsrx_provisioning, vsrx_ip: 10.13.84.55 }
+    - { role: vsrx_provisioning, vsrx_ip: 10.13.84.55, vsrx_user: srxadmin }
 ```
 The following config applies a custom configuration of vSRX inatnce
 ```
