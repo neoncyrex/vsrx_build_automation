@@ -33,6 +33,7 @@ This playbook shows how to apply role to a new device with default function
 - hosts: localhost
   roles:
     - { role: vsrx_provisioning, vsrx_ip: 10.13.84.55, vsrx_user: srxadmin, vsrx_password: somestongpassword }
+    - { role: vsrx_provisioning, vsrx_ip: 10.13.84.55, vsrx_user: srxadmin, vsrx_sshkeyfile: ~\.ssh\id_rsa.pub }
 ```
 The following config applies a custom configuration of vSRX inatnce
 ```
@@ -40,7 +41,7 @@ The following config applies a custom configuration of vSRX inatnce
   roles:
     - { role: vsrx_provisioning, vsrx_ip: 10.13.84.55, vsrx_user: srxadmin, vsrx_password: somestongpassword, function: myfunction }
 ```
-The role assumes that config files exist for any functions which are defined
+The role assumes that config files exist for any functions which are defined and that admin user accounts are preconfigured in the base configuration template
 
 License
 -------
