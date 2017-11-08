@@ -30,3 +30,27 @@
       host: "{{vsrx_ip}}"
       username: "{{vsrx_user}}"
       password: "{{vsrx_password}}"
+      timeout: 30
+  when: vsrx_password is defined
+  
+ - name: apply new configuration for role {{function}} on vSRX
+  junos_config:
+    src: /tmp/{{function}}.cfg
+    update: merge
+    comment: aply {{function}} configuration
+    provider:
+      host: "{{vsrx_ip}}"
+      timeout: 30
+  when: (vsrx_password is not defined) and (vsrx_sshkeyfile is not defined)
+  
+  - name: apply new configuration for role {{function}} on vSRX
+  junos_config:
+    src: /tmp/{{function}}.cfg
+    update: merge
+    comment: aply {{function}} configuration
+    provider:
+      host: "{{vsrx_ip}}"
+      username: "{{vsrx_user}}"
+      ssh_keyfile: "{{vsrx_sshkeyfile}}"
+      timeout: 30
+  when: vsrx_sshkeyfile is defined

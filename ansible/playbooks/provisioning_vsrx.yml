@@ -15,4 +15,4 @@
    connection: local
    gather_facts: no
    roles:
-    -  { role: vsrx_provisioning, vsrx_ip: "{{vsrx_ip}}", vsrx_user: "{{vsrx_user}}", vsrx_password: "{{vsrx_password}}" }
+    -  { role: vsrx_provisioning, vsrx_ip: "{{vsrx_ip}}", vsrx_user: "{{vsrx_user}}", vsrx_password: "{{vsrx_password}}", vsrx_sshkeyfile: "{{vsrx_sshkeyfile}}" }
