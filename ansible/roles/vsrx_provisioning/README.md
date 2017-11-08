@@ -16,6 +16,7 @@ Variable | Mandatory? | Description
 vsrx_ip  | YES | IP address of running instance of vSRX
 vsrx_user | YES | Username which will be used to connected to vSRX instance
 vsrx_password | YES | Password to connect
+vsrx_sshkeyfile | NO | path to user ssh key (could be used instead of password) 
 function | NO | vSRX function which has to be applied, default it to apply basic configuration file. in future it can be extended
 
 
