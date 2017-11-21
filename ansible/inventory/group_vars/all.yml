@@ -14,6 +14,15 @@ srx_user: root
 srx_pass: Juniper123
 mechid: adminjuniper
 mechid_publickey_url: http://10.13.84.76/keys/ansible_id_rsa.pub
+mechid_sshkeys:
+  - "ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAABAQCzo/qkDMCA+s1kRL1WYt0Nk1MK1nOExXMunnStAC3vjRVv/VdWmJSELiKr9tony/bv4xH
+E9wz+Q7ISGNCvUH8BKKUu+htwH+I+GLqMHG5tsqmQl33uBuxmE7mXhUALFr3NG4pBLqPZq3jv5LBk9VsFtZHpp+kRZI3v7GS086oHsC0TyP2kg3wAv
+l7IDEafVi6XfSImjfQ47cesBWkzB+Zeeltr/JXlC7abTclafl6In1qlPeKvncFtHbtI/aLOjWMBhgwOzsEq9ekXpv8MH7pkUShYaAEsIxUZOCt3yI/
+wVqqRzZXdlCV7fMsL9y4EoVKsQyP0+U+9DaBJVPmFIsRn adminjuniper@jztp"
+  - "ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAABAQC7dyG2Z8HeeXV7kSOPnPqy28XJSXR38Yn1tbQGUaW0aanbZpewRER5SbtDjBsBI3cJgqI
+CO55B8BWtgyMd19Ckr4IFGa9PVxApt/89plT+ubEPvHOHs9wwxBdywZ/htAOZIDxFDPScKn5BGfp6bx2/Ehu6UrXfFdfsTBvvJJ4t5g3C1KJmAoYVU
+vlJ+c6EHDV5tgLwERDo+DyBI7EmEPNMH9T0HkVLBOpcPX1MXb7v2FCASMkHek6gTquSYjEqGieqIGxCdNtX8oUrGMCk21ovmFFp+cznl13O39yDhLT
+eQSjpScsjHYOBljEYv3V0NOH96p3S1AzvVfDxQjgxj5Kz adminjuniper@localhost.localdomain"
 
 # template vars
 globaladdress:

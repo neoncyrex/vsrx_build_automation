@@ -43,6 +43,20 @@
          host: "{{srx_mgmntip}}"
          username: "{{srx_user}}"
          password: "{{srx_pass}}"
+         
+   - name: add additional ssh keys to admin user
+     junos_user:
+       name: "{{mechid}}"
+       full_name: "Ansible and Automation MechID"
+       role: super-user
+       sshkey: "{{item}}"
+       state: present
+       provider:
+         host: "{{srx_mgmntip}}"
+         username: "{{srx_user}}"
+         password: "{{srx_pass}}"
+     with_items:
+       - "{{mechid_sshkeys}}"
 
    - name: update existing config
      junos_config:
